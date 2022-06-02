@@ -10,7 +10,6 @@ const Login = () => {
       const v = {
         userId: "5555-1275673-123123-3145",
       };
-      console.log(v, "v");
       let userToken = await setUserDataFunc(v);
       if (userToken) {
         let parsedUserData = JSON.parse(userToken);

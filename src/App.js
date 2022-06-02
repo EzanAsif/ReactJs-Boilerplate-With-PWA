@@ -11,13 +11,9 @@ import AppRoutes from "./Navigation";
 const UserAuthenticated = () => {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
-  console.log(`this is state`);
-  console.log(state);
   React.useEffect(() => {
     (async () => {
       getUserDataFunc().then((res) => {
-        console.log("this is res in App");
-        console.log(res);
         let v;
         if (res) v = JSON.parse(res);
         if (v && v.userId) {
