@@ -1,16 +1,13 @@
 import React from "react";
 import "./App.css";
-import { Provider, useSelector, useDispatch } from "react-redux";
-import { store } from "./Store/index";
+import { useSelector, useDispatch } from "react-redux";
 import { userDataFromLocalStorage } from "./Store/Reducers/AuthReducer";
 
 const userDataFunc = async () => {
   try {
     let value;
-    value = await localStorage.getItem("token").then((res) => {
-      return res;
-    });
-    return value;
+    value = await localStorage.getItem("token");
+    if (value) return value;
   } catch (e) {
     console.log(e);
   }
@@ -35,19 +32,43 @@ const UserAuthenticated = () => {
     })().catch((err) => {
       console.error(err);
     });
-  }, []);
+  }, [localStorage]);
 
   return null;
 };
 
 function App() {
+  const dispatch = useDispatch();
+
+  const setToken = async (value) => {
+    try {
+      // debugger;
+      // const jsonValue = JSON.stringify(value);
+      const v = {
+        userId: "3123-123-123123-3145",
+      };
+      console.log(v, "v");
+      await localStorage.setItem("token", JSON.stringify(v));
+      let userToken = await localStorage.getItem("token");
+      console.log(userToken);
+      if (userToken) {
+        let parsedUserData = JSON.parse(userToken);
+        dispatch(userDataFromLocalStorage(parsedUserData));
+      }
+      // return userToken;
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
-    <Provider store={store}>
+    <>
       <UserAuthenticated />
       <div className="App">
         <p>Running</p>
+        <button onClick={setToken}>Login</button>
       </div>
-    </Provider>
+    </>
   );
 }
 
