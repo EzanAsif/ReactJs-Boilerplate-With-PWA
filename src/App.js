@@ -2,16 +2,8 @@ import React from "react";
 import "./App.css";
 import { useSelector, useDispatch } from "react-redux";
 import { userDataFromLocalStorage } from "./Store/Reducers/AuthReducer";
-
-const userDataFunc = async () => {
-  try {
-    let value;
-    value = await localStorage.getItem("token");
-    if (value) return value;
-  } catch (e) {
-    console.log(e);
-  }
-};
+import { getUserDataFunc, setUserDataFunc } from "./App/user";
+import { removeuserDataFromLocalStorage } from "./Store/Reducers/AuthReducer";
 
 const UserAuthenticated = () => {
   const dispatch = useDispatch();
@@ -20,7 +12,7 @@ const UserAuthenticated = () => {
   console.log(state);
   React.useEffect(() => {
     (async () => {
-      userDataFunc().then((res) => {
+      getUserDataFunc().then((res) => {
         console.log("this is res in App");
         console.log(res);
         let v;
@@ -42,20 +34,24 @@ function App() {
 
   const setToken = async (value) => {
     try {
-      // debugger;
-      // const jsonValue = JSON.stringify(value);
       const v = {
-        userId: "3123-123-123123-3145",
+        userId: "5555-1275673-123123-3145",
       };
       console.log(v, "v");
-      await localStorage.setItem("token", JSON.stringify(v));
-      let userToken = await localStorage.getItem("token");
-      console.log(userToken);
+      let userToken = await setUserDataFunc(v);
       if (userToken) {
         let parsedUserData = JSON.parse(userToken);
         dispatch(userDataFromLocalStorage(parsedUserData));
       }
-      // return userToken;
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const removeToken = async () => {
+    try {
+      await localStorage.removeItem("token");
+      dispatch(removeuserDataFromLocalStorage());
     } catch (e) {
       console.log(e);
     }
@@ -67,6 +63,7 @@ function App() {
       <div className="App">
         <p>Running</p>
         <button onClick={setToken}>Login</button>
+        <button onClick={removeToken}>Logout</button>
       </div>
     </>
   );

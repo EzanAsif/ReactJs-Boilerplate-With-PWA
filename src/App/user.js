@@ -1,22 +1,15 @@
-// import localStorage from '@react-native-async-storage/async-storage';
-
-const getData = async (token) => {
+export const getUserDataFunc = async () => {
   try {
     let value;
-    // value = await localStorage.getItem(token);
-    console.log("this is value from user file");
-    console.log(value);
-    console.log(typeof value);
-    if (value !== null) {
-      return value;
-    } else {
-      return null;
-    }
+    value = await localStorage.getItem("token");
+    if (value) return value;
   } catch (e) {
     console.log(e);
   }
 };
 
-export const token = getData("token");
-export const user = getData("user");
-// export const user = JSON.parse(getData('user'));
+export const setUserDataFunc = async (v) => {
+  await localStorage.setItem("token", JSON.stringify(v));
+  let userToken = await localStorage.getItem("token");
+  return userToken;
+};
