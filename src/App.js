@@ -1,9 +1,12 @@
 import React from "react";
 import "./App.css";
 import { useSelector, useDispatch } from "react-redux";
-import { userDataFromLocalStorage } from "./Store/Reducers/AuthReducer";
+import {
+  userDataFromLocalStorage,
+  removeuserDataFromLocalStorage,
+} from "./Store/Reducers/AuthReducer";
 import { getUserDataFunc, setUserDataFunc } from "./App/user";
-import { removeuserDataFromLocalStorage } from "./Store/Reducers/AuthReducer";
+import AppRoutes from "./Navigation";
 
 const UserAuthenticated = () => {
   const dispatch = useDispatch();
@@ -32,39 +35,10 @@ const UserAuthenticated = () => {
 function App() {
   const dispatch = useDispatch();
 
-  const setToken = async (value) => {
-    try {
-      const v = {
-        userId: "5555-1275673-123123-3145",
-      };
-      console.log(v, "v");
-      let userToken = await setUserDataFunc(v);
-      if (userToken) {
-        let parsedUserData = JSON.parse(userToken);
-        dispatch(userDataFromLocalStorage(parsedUserData));
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  const removeToken = async () => {
-    try {
-      await localStorage.removeItem("token");
-      dispatch(removeuserDataFromLocalStorage());
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
   return (
     <>
       <UserAuthenticated />
-      <div className="App">
-        <p>Running</p>
-        <button onClick={setToken}>Login</button>
-        <button onClick={removeToken}>Logout</button>
-      </div>
+      <AppRoutes />
     </>
   );
 }
