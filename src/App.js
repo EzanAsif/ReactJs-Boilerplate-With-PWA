@@ -1,16 +1,12 @@
 import React from "react";
 import "./App.css";
-import { useSelector, useDispatch } from "react-redux";
-import {
-  userDataFromLocalStorage,
-  removeuserDataFromLocalStorage,
-} from "./Store/Reducers/AuthReducer";
-import { getUserDataFunc, setUserDataFunc } from "./App/user";
+import { useDispatch } from "react-redux";
+import { userDataFromLocalStorage } from "./Store/Reducers/AuthReducer";
+import { getUserDataFunc } from "./App/user";
 import AppRoutes from "./Navigation";
 
 const UserAuthenticated = () => {
   const dispatch = useDispatch();
-  const state = useSelector((state) => state);
   React.useEffect(() => {
     (async () => {
       getUserDataFunc().then((res) => {
@@ -29,8 +25,6 @@ const UserAuthenticated = () => {
 };
 
 function App() {
-  const dispatch = useDispatch();
-
   return (
     <>
       <UserAuthenticated />
