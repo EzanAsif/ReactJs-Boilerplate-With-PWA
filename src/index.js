@@ -25,7 +25,8 @@ navigator.serviceWorker
   .register("./service-worker.js", { scope: "/" })
   .then(() => {
     console.log(
-      "Install succeeded as the max allowed scope was overriden to '/'."
+      // "Install succeeded as the max allowed scope was overriden to '/'."
+      "Service Worker Installed"
     );
   })
   .catch((e) => console.log(e));
